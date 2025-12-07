@@ -1,0 +1,329 @@
+// ============================================
+// NAVIGATION
+// ============================================
+const navbar = document.getElementById('navbar');
+const navToggle = document.getElementById('navToggle');
+const navMenu = document.getElementById('navMenu');
+const navLinks = document.querySelectorAll('.nav-link');
+
+// Navbar scroll effect
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
+    }
+});
+
+// Mobile menu toggle
+navToggle.addEventListener('click', () => {
+    navMenu.classList.toggle('active');
+    navToggle.classList.toggle('active');
+});
+
+// Close mobile menu when clicking on a link
+navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+        navMenu.classList.remove('active');
+        navToggle.classList.remove('active');
+    });
+});
+
+// Smooth scroll for navigation links
+navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href');
+        const targetSection = document.querySelector(targetId);
+        
+        if (targetSection) {
+            const offsetTop = targetSection.offsetTop - 80;
+            window.scrollTo({
+                top: offsetTop,
+                behavior: 'smooth'
+            });
+        }
+    });
+});
+
+// ============================================
+// INTERSECTION OBSERVER FOR ANIMATIONS
+// ============================================
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+        }
+    });
+}, observerOptions);
+
+// Observe service cards
+const serviceCards = document.querySelectorAll('.service-card');
+serviceCards.forEach((card, index) => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(30px)';
+    card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+    observer.observe(card);
+});
+
+// Observe about section
+const aboutSections = document.querySelectorAll('.about-text, .about-visual');
+aboutSections.forEach(section => {
+    section.style.opacity = '0';
+    section.style.transform = 'translateX(-30px)';
+    section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+    observer.observe(section);
+});
+
+// ============================================
+// STATS COUNTER ANIMATION
+// ============================================
+const animateCounter = (element, target, duration = 2000) => {
+    let start = 0;
+    const increment = target / (duration / 16);
+    
+    const updateCounter = () => {
+        start += increment;
+        if (start < target) {
+            element.textContent = Math.floor(start);
+            requestAnimationFrame(updateCounter);
+        } else {
+            element.textContent = target;
+        }
+    };
+    
+    updateCounter();
+};
+
+const statsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting && !entry.target.classList.contains('counted')) {
+            const statNumber = entry.target.querySelector('.stat-number');
+            const target = parseInt(statNumber.getAttribute('data-target'));
+            animateCounter(statNumber, target);
+            entry.target.classList.add('counted');
+        }
+    });
+}, { threshold: 0.5 });
+
+const statItems = document.querySelectorAll('.stat-item');
+statItems.forEach(item => {
+    statsObserver.observe(item);
+});
+
+// ============================================
+// FLOATING CARDS ANIMATION
+// ============================================
+const floatingCards = document.querySelectorAll('.floating-card');
+floatingCards.forEach((card, index) => {
+    card.style.animationDelay = `${index * 0.5}s`;
+    
+    // Add mouse move parallax effect
+    card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const rotateX = (y - centerY) / 10;
+        const rotateY = (centerX - x) / 10;
+        
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-20px)`;
+    });
+    
+    card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+    });
+});
+
+// ============================================
+// SERVICE CARDS HOVER EFFECTS
+// ============================================
+serviceCards.forEach(card => {
+    card.addEventListener('mouseenter', () => {
+        card.style.transform = 'translateY(-10px) scale(1.02)';
+    });
+    
+    card.addEventListener('mouseleave', () => {
+        card.style.transform = 'translateY(0) scale(1)';
+    });
+});
+
+// ============================================
+// FORM HANDLING
+// ============================================
+const contactForm = document.getElementById('contactForm');
+
+contactForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    // Get form data
+    const formData = new FormData(contactForm);
+    const data = Object.fromEntries(formData);
+    
+    // Show success message (you can integrate with your backend here)
+    const submitBtn = contactForm.querySelector('.btn-submit');
+    const originalText = submitBtn.innerHTML;
+    
+    submitBtn.innerHTML = '<span>Enviando...</span>';
+    submitBtn.disabled = true;
+    
+    // Simulate form submission
+    setTimeout(() => {
+        submitBtn.innerHTML = '<span>✓ Mensaje enviado</span>';
+        submitBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+        
+        // Reset form
+        contactForm.reset();
+        
+        // Reset button after 3 seconds
+        setTimeout(() => {
+            submitBtn.innerHTML = originalText;
+            submitBtn.style.background = '';
+            submitBtn.disabled = false;
+        }, 3000);
+    }, 1500);
+    
+    // Here you would typically send the data to your backend
+    console.log('Form data:', data);
+});
+
+// ============================================
+// PARALLAX EFFECT FOR HERO SECTION
+// ============================================
+const hero = document.querySelector('.hero');
+const heroContent = document.querySelector('.hero-content');
+
+window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    const rate = scrolled * 0.5;
+    
+    if (scrolled < hero.offsetHeight) {
+        heroContent.style.transform = `translateY(${rate}px)`;
+        heroContent.style.opacity = 1 - (scrolled / hero.offsetHeight) * 0.5;
+    }
+});
+
+// ============================================
+// CURSOR EFFECT (Optional - can be removed if not needed)
+// ============================================
+const createCursorEffect = () => {
+    const cursor = document.createElement('div');
+    cursor.className = 'custom-cursor';
+    cursor.style.cssText = `
+        width: 20px;
+        height: 20px;
+        border: 2px solid #05DBF2;
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        transition: transform 0.1s ease;
+        display: none;
+    `;
+    document.body.appendChild(cursor);
+    
+    document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX - 10 + 'px';
+        cursor.style.top = e.clientY - 10 + 'px';
+        cursor.style.display = 'block';
+    });
+    
+    // Add hover effect on interactive elements
+    const interactiveElements = document.querySelectorAll('a, button, .service-card, .floating-card');
+    interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            cursor.style.transform = 'scale(1.5)';
+            cursor.style.borderColor = '#05C7F2';
+        });
+        el.addEventListener('mouseleave', () => {
+            cursor.style.transform = 'scale(1)';
+            cursor.style.borderColor = '#05DBF2';
+        });
+    });
+};
+
+// Uncomment to enable custom cursor
+// createCursorEffect();
+
+// ============================================
+// TYPING EFFECT FOR HERO TITLE (Optional)
+// ============================================
+const createTypingEffect = () => {
+    const titleHighlight = document.querySelector('.title-line.highlight');
+    if (!titleHighlight) return;
+    
+    const text = titleHighlight.textContent;
+    titleHighlight.textContent = '';
+    titleHighlight.style.borderRight = '2px solid #05DBF2';
+    
+    let index = 0;
+    const typeInterval = setInterval(() => {
+        if (index < text.length) {
+            titleHighlight.textContent += text[index];
+            index++;
+        } else {
+            clearInterval(typeInterval);
+            setTimeout(() => {
+                titleHighlight.style.borderRight = 'none';
+            }, 500);
+        }
+    }, 100);
+};
+
+// Uncomment to enable typing effect
+// window.addEventListener('load', createTypingEffect);
+
+// ============================================
+// SCROLL REVEAL ANIMATIONS
+// ============================================
+const revealOnScroll = () => {
+    const elements = document.querySelectorAll('.section-header, .contact-info, .contact-form');
+    
+    elements.forEach(element => {
+        element.style.opacity = '0';
+        element.style.transform = 'translateY(30px)';
+        element.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+    });
+    
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }, index * 100);
+            }
+        });
+    }, { threshold: 0.2 });
+    
+    elements.forEach(element => revealObserver.observe(element));
+};
+
+revealOnScroll();
+
+// ============================================
+// PERFORMANCE OPTIMIZATION
+// ============================================
+// Throttle scroll events
+let ticking = false;
+const optimizedScroll = () => {
+    if (!ticking) {
+        window.requestAnimationFrame(() => {
+            // Scroll-based animations here
+            ticking = false;
+        });
+        ticking = true;
+    }
+};
+
+window.addEventListener('scroll', optimizedScroll, { passive: true });
+
