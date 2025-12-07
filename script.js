@@ -327,3 +327,59 @@ const optimizedScroll = () => {
 
 window.addEventListener('scroll', optimizedScroll, { passive: true });
 
+
+
+window.addEventListener("load", () => {
+    const loader = document.getElementById("loader");
+
+    setTimeout(() => {
+        loader.classList.add("hidden");
+    }, 1000); // Tiempo visible del splash
+});
+
+
+tsParticles.load("particles-hero", {
+    fpsLimit: 60,
+    background: { color: "transparent" },
+    particles: {
+        number: { 
+            value: 60, 
+            density: { enable: true, value_area: 800 } 
+        },
+        color: { value: ["#05DBF2", "#0487D9", "#05C7F2"] },
+        shape: { type: "circle" },
+        opacity: { 
+            value: 0.6, 
+            random: true 
+        },
+        size: { 
+            value: { min: 1, max: 3 } 
+        },
+        links: {
+            enable: true,
+            color: "#05DBF2",
+            distance: 120,
+            opacity: 0.4,
+            width: 1
+        },
+        move: {
+            enable: true,
+            speed: 1.2,
+            direction: "none",
+            outModes: "out"
+        }
+    },
+    interactivity: {
+        events: {
+            onHover: { enable: true, mode: "grab" },
+            resize: true
+        },
+        modes: {
+            grab: {
+                distance: 180,
+                links: { opacity: 0.7 }
+            }
+        }
+    },
+    detectRetina: true
+});

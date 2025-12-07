@@ -9,9 +9,35 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="img/iconIA.png">
+    <meta name="description" content="Advantech AI - Soluciones Tecnológicas con IA">
+    <meta name="keywords" content="Advantech AI, Soluciones Tecnológicas, IA, Automatización, SEO, Posicionamiento SEO, Aplicaciones Web, Automatizaciones, Inteligencia Artificial, Machine Learning, NLP, Chatbots, RPA, APIs, Integración, Cloud, Web Dev, SEO Técnico, Content, Analytics">
+    <meta name="author" content="Advantech AI">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+    <meta name="google" content="notranslate">
+    <meta name="google" content="notranslate">
+
 
 </head>
 <body>
+
+
+    <!-- ===========================
+    LOADER / SPLASH SCREEN
+    =========================== -->
+    <div id="loader">
+        <div class="loader-content">
+            <img src="img/logoAIHD.png" alt="Advantech AI Logo" class="loader-logo">
+            <h2 class="loader-title">Advantech <span>AI</span></h2>
+            <div class="loader-bar">
+                <div class="loader-progress"></div>
+            </div>
+            <p class="loader-text">Cargando...</p>
+        </div>
+    </div>
+    
+
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
@@ -37,13 +63,20 @@
     <!-- Hero Section -->
     <section id="home" class="hero">
         <div class="hero-background">
+            <!-- Partículas IA -->
+            <div id="particles-hero"></div>
+
             <div class="gradient-orb orb-1"></div>
             <div class="gradient-orb orb-2"></div>
             <div class="gradient-orb orb-3"></div>
             <div class="grid-pattern"></div>
         </div>
-        <div class="hero-content">
+        <div class="hero-content" style="transform: translateY(-30px);">
             <div class="hero-text">
+
+                <!-- 🔥 Branding Badge -->
+                <div class="hero-badge">Automatiza. Escala. Domina tu mercado.</div>
+
                 <h1 class="hero-title">
                     <span class="title-line">Transformamos tu negocio</span>
                     <span class="title-line highlight">con tecnología e IA</span>
@@ -367,7 +400,9 @@
         </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@3/tsparticles.bundle.min.js"></script>
     <script src="script.js"></script>
+
 </body>
 </html>
 

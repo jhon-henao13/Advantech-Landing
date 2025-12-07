@@ -42,6 +42,123 @@ body {
     padding: 0 20px;
 }
 
+
+
+/* ==========================================
+   LOADER / SPLASH SCREEN FUTURISTA
+========================================== */
+#loader {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at center, #02203b 0%, #011126 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999999;
+    animation: fadeOutLoader 0.6s ease forwards;
+    animation-delay: 2s; /* Tiempo visible */
+}
+
+#loader.hidden {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.loader-content {
+    text-align: center;
+    animation: appear 0.8s ease;
+}
+
+.loader-logo {
+    width: 85px;
+    height: 85px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 15px #05DBF2);
+    animation: pulse 1.8s infinite ease-in-out;
+    border-radius: 20%;
+}
+
+.loader-title {
+    margin-top: 15px;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--color-white);
+}
+
+.loader-title span {
+    background: var(--gradient-secondary);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.loader-bar {
+    width: 180px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 20px auto 10px;
+    border-radius: 50px;
+    overflow: hidden;
+}
+
+.loader-progress {
+    height: 100%;
+    width: 0;
+    background: var(--gradient-primary);
+    animation: loadBar 2s linear forwards;
+}
+
+.loader-text {
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+    letter-spacing: 2px;
+    margin-top: 5px;
+}
+
+/* Animaciones */
+@keyframes loadBar {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.15); opacity: 0.8; }
+}
+
+@keyframes appear {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOutLoader {
+    to { opacity: 0; visibility: hidden; }
+}
+
+
+
+#particles-hero {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    opacity: 0.35; /* sutil y elegante */
+    pointer-events: none;
+}
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+.hero-background {
+    z-index: 1;
+}
+
+
+
+
+
 /* ============================================
    NAVIGATION
    ============================================ */
@@ -266,6 +383,44 @@ body {
     letter-spacing: -1px;
 }
 
+
+.hero-badge {
+    display: inline-block;
+    padding: 5px 22px;
+    margin-bottom: 22px;
+
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    text-transform: none; /* como en la imagen */
+    color: #00d8ff;
+
+    background: rgba(0, 217, 255, 0.06); /* glow ultra suave */
+    border: 1px solid rgba(0, 217, 255, 0.25);
+    border-radius: 999px;
+
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    box-shadow: 0 0 12px rgba(0, 217, 255, 0.1);
+
+    opacity: 0;
+    animation: fadeInBadge 0.8s ease forwards;
+}
+
+@keyframes fadeInBadge {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+
 .title-line {
     display: block;
 }
@@ -280,7 +435,7 @@ body {
 .hero-subtitle {
     font-size: 1.25rem;
     color: var(--color-text-light);
-    margin-bottom: 2.5rem;
+    margin-bottom: 1.5rem;
     line-height: 1.8;
     max-width: 550px;
 }
@@ -821,6 +976,36 @@ p {
     margin-top: 1rem;
 }
 
+
+
+
+/* Para todo el scrollbar de la página */
+::-webkit-scrollbar {
+    width: 20px; /* Ancho del scrollbar vertical */
+    height: 10px; /* Alto del scrollbar horizontal */
+  }
+  
+  /* El fondo del scrollbar */
+  ::-webkit-scrollbar-track {
+    background: #1e2023; /* Color de fondo del track (pista) */
+    border-radius: 10px; /* Bordes redondeados del track */
+  }
+  
+  /* El "pulgar" o la barra que se mueve */
+  ::-webkit-scrollbar-thumb {
+    background: #3cc6e2; /* Color de la barra (thumb) */
+    border-radius: 10px; /* Bordes redondeados de la barra */
+  }
+  
+  /* Al pasar el mouse sobre la barra */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #2992a7; /* Color de la barra al pasar el mouse */
+    transition: 0.3s ease;
+    width: 25px;
+  }
+
+
+
 /* ============================================
    FOOTER
    ============================================ */
@@ -1038,6 +1223,13 @@ p {
 
     .footer-links {
         grid-template-columns: 1fr;
+    }
+
+    .hero-text {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
 }
 
