@@ -45,11 +45,16 @@
                 <img src="img/iconIA.png" alt="Advantech AI Logo" class="logo-img">
                 <span class="logo-text">ADVANTECH <span class="logo-ai">AI</span></span>
             </div>
+
             <ul class="nav-menu" id="navMenu">
                 <li><a href="#home" class="nav-link"><i class="fa-solid fa-house"></i> Inicio</a></li>
                 <li><a href="#services" class="nav-link"><i class="fa-solid fa-gears"></i> Servicios</a></li>
                 <li><a href="#about" class="nav-link"><i class="fa-solid fa-users"></i> Nosotros</a></li>
                 <li><a href="#contact" class="nav-link"><i class="fa-solid fa-envelope"></i> Contacto</a></li>
+
+                <li class="language-switch">
+                    <button id="langToggle" class="lang-btn">ES 🇪🇸</button>
+                </li>
             </ul>
             
             <button class="nav-toggle" id="navToggle">
@@ -220,43 +225,61 @@
 
     <!-- About Section -->
     <section id="about" class="about">
-        <div class="container">
-            <div class="about-content">
-                <div class="about-text">
-                    <span class="section-label">Sobre Nosotros</span>
-                    <h2 class="section-title">Innovación tecnológica al servicio de tu negocio</h2>
-                    <p class="about-description">
-                        En Advantech AI, combinamos experiencia técnica con visión estratégica 
-                        para crear soluciones que realmente impactan en el crecimiento de tu empresa.
-                    </p>
-                    <div class="stats-grid">
-                        <div class="stat-item">
-                            <div class="stat-number" data-target="500">0</div>
-                            <div class="stat-label">Proyectos Completados</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number" data-target="98">0</div>
-                            <div class="stat-label">% Satisfacción</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number" data-target="50">0</div>
-                            <div class="stat-label">Clientes Activos</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="about-visual">
-                    <div class="tech-stack">
-                        <div class="tech-item">AI/ML</div>
-                        <div class="tech-item">Cloud</div>
-                        <div class="tech-item">Web Dev</div>
-                        <div class="tech-item">SEO</div>
-                        <div class="tech-item">Automation</div>
-                        <div class="tech-item">Analytics</div>
-                    </div>
-                </div>
-            </div>
+      <div class="container about-container">
+        <div class="about-left">
+          <button class="btn-small" data-aos="fade-up">¿Por qué elegirnos?</button>
+          <h2 class="about-title" data-aos="fade-up" data-aos-delay="100">
+            Experiencia que <span style="padding: 1rem;" class="highlight">marca la diferencia</span>
+          </h2>
+          <p class="about-description" data-aos="fade-up" data-aos-delay="200">
+            En Advantech AI combinamos experiencia técnica con visión estratégica para entregar resultados que superan expectativas. Nuestro enfoque centrado en el cliente garantiza soluciones que realmente funcionan.
+          </p>
+          <button class="btn-primary-about" data-aos="fade-up" data-aos-delay="300">
+            <span>Conoce nuestro proceso</span>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
         </div>
+
+        <div class="about-right">
+          <div class="features-grid">
+            <div class="feature-item" data-aos="fade-up" data-aos-delay="100">
+              <div class="feature-icon-wrapper">
+                <div class="feature-icon">✨</div>
+              </div>
+              <h3>Soluciones Personalizadas</h3>
+              <p>Cada proyecto es único. Diseñamos soluciones a medida que se adaptan perfectamente a tus necesidades específicas.</p>
+            </div>
+
+            <div class="feature-item" data-aos="fade-up" data-aos-delay="200">
+              <div class="feature-icon-wrapper">
+                <div class="feature-icon">⚡</div>
+              </div>
+              <h3>Automatizaciones Escalables</h3>
+              <p>Nuestras automatizaciones crecen contigo. Desde pequeños procesos hasta sistemas empresariales complejos.</p>
+            </div>
+
+            <div class="feature-item" data-aos="fade-up" data-aos-delay="300">
+              <div class="feature-icon-wrapper">
+                <div class="feature-icon code-icon">&lt;/&gt;</div>
+              </div>
+              <h3>Desarrollo Profesional</h3>
+              <p>Código limpio, mejores prácticas y tecnologías modernas garantizan productos de alta calidad.</p>
+            </div>
+
+            <div class="feature-item" data-aos="fade-up" data-aos-delay="400">
+              <div class="feature-icon-wrapper">
+                <div class="feature-icon">🤖</div>
+              </div>
+              <h3>IA Aplicada a Procesos</h3>
+              <p>Implementamos inteligencia artificial de manera práctica para optimizar operaciones reales de negocio.</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
+
 
     <!-- Contact Section -->
     <section id="contact" class="contact">
@@ -401,6 +424,7 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@3/tsparticles.bundle.min.js"></script>
+    <script src="translations.js"></script>
     <script src="script.js"></script>
 
 </body>

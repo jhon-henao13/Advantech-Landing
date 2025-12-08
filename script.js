@@ -72,13 +72,28 @@ serviceCards.forEach((card, index) => {
     observer.observe(card);
 });
 
-// Observe about section
-const aboutSections = document.querySelectorAll('.about-text, .about-visual');
-aboutSections.forEach(section => {
-    section.style.opacity = '0';
-    section.style.transform = 'translateX(-30px)';
-    section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-    observer.observe(section);
+// Observe about section elements with data-aos
+const aboutElements = document.querySelectorAll('[data-aos]');
+aboutElements.forEach(element => {
+    observer.observe(element);
+});
+
+// Custom observer for data-aos animations
+const aosObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('aos-animate');
+            aosObserver.unobserve(entry.target);
+        }
+    });
+}, {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+});
+
+// Observe all elements with data-aos attribute
+document.querySelectorAll('[data-aos]').forEach(el => {
+    aosObserver.observe(el);
 });
 
 // ============================================
@@ -382,4 +397,137 @@ tsParticles.load("particles-hero", {
         }
     },
     detectRetina: true
+});
+
+
+let currentLang = localStorage.getItem("lang") || "es";
+
+function hashText(str) {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+        hash = (hash << 5) - hash + str.charCodeAt(i);
+        hash |= 0;
+    }
+    return "k" + Math.abs(hash);
+}
+
+/*******************************************************
+ *   NODOS QUE NO SE DEBEN TRADUCIR
+ *******************************************************/
+function isIgnored(node) {
+    if (!node.parentElement) return true;
+
+    const p = node.parentElement;
+
+    return (
+        p.closest("svg") ||                             // ICONOS SVG
+        p.classList.contains("stat-number") ||          // NUMEROS ANIMADOS
+        p.tagName === "SCRIPT" ||                       // SCRIPTS
+        p.tagName === "STYLE" ||                        // STYLES
+        p.tagName === "INPUT" ||                        // INPUTS
+        p.tagName === "TEXTAREA" ||                     // TEXTAREAS
+        p.hasAttribute("contenteditable")               // EDITABLES
+    );
+}
+
+/*******************************************************
+ *   ESCANEO AUTOMÁTICO SEGURO
+ *******************************************************/
+function scanDOM() {
+    const textNodes = [];
+
+    const walker = document.createTreeWalker(
+        document.body,
+        NodeFilter.SHOW_TEXT,
+        {
+            acceptNode(node) {
+                const t = node.nodeValue.trim();
+
+                if (!t) return NodeFilter.FILTER_REJECT;
+                if (isIgnored(node)) return NodeFilter.FILTER_REJECT;
+
+                return NodeFilter.FILTER_ACCEPT;
+            }
+        }
+    );
+
+    let node;
+    while ((node = walker.nextNode())) {
+        textNodes.push(node);
+    }
+
+    // Envolver cada nodo DESPUÉS de recopilar la lista (seguro)
+    textNodes.forEach(node => {
+        const text = node.nodeValue.trim();
+        const key = text; // use the original text as the translation key (easier to maintain)
+
+        const span = document.createElement("span");
+        span.dataset.i18nKey = key;
+        span.textContent = text;
+
+        // Reemplazar nodo
+        node.parentNode.replaceChild(span, node);
+
+        // Registrar traducciones
+        if (!TRANSLATIONS.es[key]) TRANSLATIONS.es[key] = text;
+        if (!TRANSLATIONS.en[key]) TRANSLATIONS.en[key] = text;
+    });
+}
+
+/*******************************************************
+ *   APLICAR TRADUCCIÓN
+ *******************************************************/
+function applyTranslations() {
+    document.querySelectorAll("[data-i18n-key]").forEach(el => {
+        const key = el.dataset.i18nKey;
+        const translated = TRANSLATIONS[currentLang][key];
+        if (translated) {
+            el.textContent = translated;
+        }
+    });
+
+    updateLangButton();
+}
+
+// Also translate common attributes (placeholders)
+function applyAttributeTranslations() {
+    const inputs = document.querySelectorAll('input[placeholder], textarea[placeholder]');
+    inputs.forEach(el => {
+        const ph = el.getAttribute('placeholder');
+        if (!ph) return;
+        const translated = TRANSLATIONS[currentLang][ph];
+        if (translated) el.setAttribute('placeholder', translated);
+    });
+}
+
+// Wrap applyTranslations to ensure attributes are also updated
+const applyTranslationsWithAttrs = () => {
+    applyTranslations();
+    applyAttributeTranslations();
+};
+
+/*******************************************************
+ *   BOTÓN DE IDIOMA
+ *******************************************************/
+function updateLangButton() {
+    document.getElementById("langToggle").textContent =
+        currentLang === "es" ? "ES 🇪🇸" : "EN 🇺🇸";
+}
+
+document.getElementById("langToggle").addEventListener("click", () => {
+    currentLang = currentLang === "es" ? "en" : "es";
+    localStorage.setItem("lang", currentLang);
+    document.documentElement.lang = currentLang;
+    applyTranslationsWithAttrs();
+});
+
+/*******************************************************
+ *   INICIALIZACIÓN
+ *******************************************************/
+window.addEventListener("load", () => {
+    scanDOM();          // Escaneo estable (cuando TODO está cargado)
+    applyTranslationsWithAttrs();
+    
+    // Actualizar el idioma del atributo lang en <html>
+    document.documentElement.lang = currentLang;
 });
