@@ -502,6 +502,80 @@
     </script>
     
 
+    <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+
+    <script type="module">
+      import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+    
+      createChat({
+        webhookUrl: 'https://n8n-wiqi.onrender.com/webhook/04b1e021-b1c2-48a2-9a6f-e3ca2e433360/chat',
+        mode: 'window',
+        showWelcomeScreen: true,
+        defaultLanguage: 'es',
+        initialMessages: [
+          '¡Hola! 👋',
+          'Estoy listo para ayudarte con tu consulta.',
+        ],
+        i18n: {
+          es: {
+            title: 'Hola 👋',
+            subtitle: 'Escríbeme para empezar',
+            getStarted: 'Nueva conversación',
+            inputPlaceholder: 'Escribe tu mensaje...',
+          }
+        },
+        branding: {
+          name: 'Advantech IA',
+          welcomeText: '¿Listo para escalar con IA?',
+          placeholder: 'Escribe tu consulta...',
+          poweredBy: false,
+        },
+        styleConfiguration: {
+          fontFamily: 'Inter, sans-serif',
+          primaryColor: '#00d4ff',
+          backgroundColor: '#0a0b10',
+          textColor: '#ffffff',
+          navigationBarBackgroundColor: '#0a0b10',
+          navigationBarTextColor: '#00d4ff',
+          chatButtonBackgroundColor: '#00d4ff',
+          chatButtonIconColor: '#0a0b10',
+        }
+      });
+    </script>
+    
+
+    <style>
+        /* VARIABLES GLOBALES PARA EL SHADOW DOM */
+        :root {
+            --n8n-chat-primary-color: #00d4ff;
+            --n8n-chat-background-color: #0a0b10;
+            --n8n-chat-text-color: #ffffff;
+        }
+
+        /* ESTILOS AL CONTENEDOR EXTERIOR (Donde sí tenemos acceso) */
+
+        /* Glow neón al botón circular de apertura */
+        #n8n-chat-wrapper .n8n-chat-launcher, 
+        button[aria-label="Open Chat"], 
+        .n8n-chat-button {
+            background-color: #00d4ff !important;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.7) !important;
+            border: none !important;
+        }
+
+        /* Estilo a la ventana cuando se abre */
+        #n8n-chat-wrapper .n8n-chat-container {
+            border: 1px solid rgba(0, 212, 255, 0.3) !important;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8) !important;
+            background: #0a0b10 !important;
+        }
+
+        /* Forzar que el widget respete el fondo oscuro si el Shadow DOM falla */
+        div[class*="n8n-chat"] {
+            --chat--canvas--background: #0a0b10;
+            --chat--header--background: #0a0b10;
+        }
+    </style>
 
 
 </body>
