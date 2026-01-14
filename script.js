@@ -349,7 +349,7 @@ window.addEventListener("load", () => {
 
     setTimeout(() => {
         loader.classList.add("hidden");
-    }, 1000); // Tiempo visible del splash
+    }, 700); // Tiempo visible del splash
 });
 
 
